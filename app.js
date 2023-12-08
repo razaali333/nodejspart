@@ -13,7 +13,7 @@ const session = require('express-session');
 const cookieSession = require('cookie-session');
 const crypto = require('crypto');
 const multer = require('multer');
-
+const { OAuth2Client } = require('google-auth-library');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -90,16 +90,31 @@ app.use(cors());
 //   res.sendFile(__dirname + '/index.html');
 // });
 app.get('/', (req, res) => {
-  const isAuthenticated = req.session.user;
-  let users_info=req.session.user;
-  const user_photo=users_info.photo;
-  res.render('home',{isAuthenticated,user_photo});
+  if (req.session.user && Object.keys(req.session.user).length !== 0) {
+    const isAuthenticated = req.session.user;
+    let users_info=req.session.user;
+    // console.log(users_info);
+    const user_photo=users_info.photo;
+    res.render('home',{isAuthenticated,user_photo});
+  } else {
+    const isAuthenticated = false;
+    const user_photo='default';
+    res.render('home',{isAuthenticated,user_photo});
+  }
+
 });
 app.get('/home', (req, res) => {
-  const isAuthenticated = req.session.user;
-  let users_info=req.session.user;
-  const user_photo=users_info.photo;
-  res.render('home',{isAuthenticated,user_photo});
+  if (req.session.user && Object.keys(req.session.user).length !== 0) {
+    const isAuthenticated = req.session.user;
+    let users_info=req.session.user;
+    // console.log(users_info);
+    const user_photo=users_info.photo;
+    res.render('home',{isAuthenticated,user_photo});
+  } else {
+    const isAuthenticated = false;
+    const user_photo='default';
+    res.render('home',{isAuthenticated,user_photo});
+  }
 });
 app.get('/signin', (req, res) => {
   res.render('signin');
@@ -113,17 +128,37 @@ app.get('/success', (req, res) => {
   res.render('success', { tapId });
   // res.render('success');
 });
-app.get('/logout', (req, res) => {
-  // Destroy the current session
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Error destroying session:', err);
-      return res.status(500).send('Internal Server Error');
-    }
+// app.get('/logout', (req, res) => {
+//   // Destroy the current session
+//   req.session.destroy((err) => {
+//     if (err) {
+//       console.error('Error destroying session:', err);
+//       return res.status(500).send('Internal Server Error');
+//     }
 
-    // Redirect or respond after destroying session
-    res.send('Logged out successfully!');
-  });
+//     // Redirect or respond after destroying session
+//     res.send('Logged out successfully!');
+//   });
+// });
+
+// Initialize the OAuth2 client
+const oAuth2Client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+// Function to revoke the access token
+async function revokeToken(token) {
+  try {
+    await oAuth2Client.revokeToken(token);
+    console.log('Token revoked successfully');
+  } catch (error) {
+    console.error('Error revoking token:', error.message);
+  }
+}
+
+// Example route for logging out
+app.get('/logout', async (req, res) => {
+ req.session=null;
+ req.logout();
+  res.redirect('/'); // Change '/' to the actual route of your home page
 });
 
 
