@@ -1,0 +1,134 @@
+{
+  "id": "chg_TS04A1620231001a4K60512250",
+  "object": "charge",
+  "live_mode": false,
+  "customer_initiated": true,
+  "api_version": "V2",
+  "method": "GET",
+  "status": "CAPTURED",
+  "amount": 500,
+  "currency": "GBP",
+  "threeDSecure": true,
+  "card_threeDSecure": false,
+  "save_card": false,
+  "product": "GOSELL",
+  "description": "Test Consulation Description",
+  "metadata": {
+    "udf1": "Metadata 1"
+  },
+  "order": {
+    "id": "ord_ZEmC2623719SxV5RC11J779"
+  },
+  "transaction": {
+    "authorization_id": "193523",
+    "timezone": "UTC+03:00",
+    "created": "1701770531251",
+    "expiry": {
+      "period": 30,
+      "type": "MINUTE"
+    },
+    "asynchronous": false,
+    "amount": 500,
+    "currency": "GBP"
+  },
+  "reference": {
+    "track": "tck_TS05A1620231001l3Z40512422",
+    "payment": "1605231001124229471",
+    "gateway": "123456789012345",
+    "acquirer": "333907193523",
+    "transaction": "txn_93",
+    "order": "ord_78"
+  },
+  "response": {
+    "code": "000",
+    "message": "Captured"
+  },
+  "card_security": {
+    "code": "M",
+    "message": "MATCH"
+  },
+  "security": {
+    "threeDSecure": {
+      "id": "3ds_TS01A1120231002Pe4r0512251",
+      "status": "Y"
+    }
+  },
+  "acquirer": {
+    "response": {
+      "code": "00",
+      "message": "Approved"
+    }
+  },
+  "gateway": {
+    "response": {
+      "code": "0",
+      "message": "Transaction Approved"
+    }
+  },
+  "card": {
+    "object": "card",
+    "first_six": "450875",
+    "first_eight": "45087500",
+    "scheme": "VISA",
+    "brand": "VISA",
+    "last_four": "1019"
+  },
+  "receipt": {
+    "id": "201705231001129016",
+    "email": true,
+    "sms": true
+  },
+  "customer": {
+    "id": "cus_TS07A1220231002Li3m0512704",
+    "first_name": "Jeo",
+    "last_name": "Nathan",
+    "email": "joe@gmail.com",
+    "phone": {
+      "country_code": "965",
+      "number": "51234567"
+    }
+  },
+  "merchant": {
+    "country": "AE",
+    "currency": "AED",
+    "id": "1263747"
+  },
+  "source": {
+    "object": "token",
+    "type": "CARD_NOT_PRESENT",
+    "payment_type": "DEBIT",
+    "payment_method": "VISA",
+    "channel": "INTERNET",
+    "id": "tok_qbTi92372OiSS5Ut11756",
+    "on_file": false
+  },
+  "redirect": {
+    "status": "SUCCESS",
+    "url": "http://localhost:5000/success"
+  },
+  "post": {
+    "status": "PENDING",
+    "url": "http://localhost:5000/webhook"
+  },
+  "activities": [
+    {
+      "id": "activity_TS06A1220231002t3PL0512735",
+      "object": "activity",
+      "created": 1701770531251,
+      "status": "INITIATED",
+      "currency": "GBP",
+      "amount": 500,
+      "remarks": "charge - created"
+    },
+    {
+      "id": "activity_TS02A2520231002Rr250512736",
+      "object": "activity",
+      "created": 1701770545736,
+      "status": "CAPTURED",
+      "currency": "GBP",
+      "amount": 500,
+      "remarks": "charge - captured"
+    }
+  ],
+  "auto_reversed": false
+}

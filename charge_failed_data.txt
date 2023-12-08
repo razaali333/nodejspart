@@ -1,0 +1,122 @@
+{
+  "id": "chg_TS02A1820231034Tg3a0512857",
+  "object": "charge",
+  "live_mode": false,
+  "customer_initiated": true,
+  "api_version": "V2",
+  "method": "GET",
+  "status": "FAILED",
+  "amount": 750,
+  "currency": "AED",
+  "threeDSecure": false,
+  "card_threeDSecure": false,
+  "save_card": false,
+  "product": "GOSELL",
+  "description": "Test Consulation Description",
+  "metadata": {
+    "udf1": "Metadata 1"
+  },
+  "order": {
+    "id": "ord_yK1u2423734R2Nd5ot11d882"
+  },
+  "transaction": {
+    "timezone": "UTC+03:00",
+    "created": "1701772507492",
+    "expiry": {
+      "period": 30,
+      "type": "MINUTE"
+    },
+    "asynchronous": false,
+    "amount": 750,
+    "currency": "AED"
+  },
+  "reference": {
+    "track": "tck_TS01A1820231034t3JF0512888",
+    "payment": "1805231034128886501",
+    "gateway": "123456789",
+    "acquirer": "333907189287",
+    "transaction": "txn_43",
+    "order": "ord_93"
+  },
+  "response": {
+    "code": "407",
+    "message": "Failed, Expired Card"
+  },
+  "acquirer": {
+    "response": {
+      "code": "54",
+      "message": "Expired card"
+    }
+  },
+  "gateway": {
+    "response": {
+      "code": "19",
+      "message": "Transaction declined due to expired card"
+    }
+  },
+  "card": {
+    "object": "card",
+    "first_six": "511111",
+    "first_eight": "51111111",
+    "scheme": "MASTERCARD",
+    "brand": "MASTERCARD",
+    "last_four": "1118"
+  },
+  "receipt": {
+    "id": "201905231034125032",
+    "email": true,
+    "sms": true
+  },
+  "customer": {
+    "first_name": "Irfan",
+    "last_name": "Jan",
+    "email": "jan@gmail.com",
+    "phone": {
+      "country_code": "965",
+      "number": "51234567"
+    }
+  },
+  "merchant": {
+    "country": "AE",
+    "currency": "AED",
+    "id": "1263747"
+  },
+  "source": {
+    "object": "token",
+    "type": "CARD_NOT_PRESENT",
+    "payment_type": "DEBIT",
+    "payment_method": "MASTERCARD",
+    "channel": "INTERNET",
+    "id": "tok_KnX9523735qy3l5BR11D489",
+    "on_file": false
+  },
+  "redirect": {
+    "status": "SUCCESS",
+    "url": "http://localhost:5000/success"
+  },
+  "post": {
+    "status": "PENDING",
+    "url": "http://localhost:5000/webhook"
+  },
+  "activities": [
+    {
+      "id": "activity_TS04A0820231035s6F30512804",
+      "object": "activity",
+      "created": 1701772507492,
+      "status": "INITIATED",
+      "currency": "AED",
+      "amount": 750,
+      "remarks": "charge - created"
+    },
+    {
+      "id": "activity_TS04A1120231035Zp430512039",
+      "object": "activity",
+      "created": 1701772511039,
+      "status": "FAILED",
+      "currency": "AED",
+      "amount": 750,
+      "remarks": "charge - failed"
+    }
+  ],
+  "auto_reversed": false
+}

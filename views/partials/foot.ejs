@@ -1,0 +1,34 @@
+ <!-- footer end -->
+    <!-- to top begin -->
+    <a href="#" class="to-top uk-visible@m" data-uk-scroll>
+        Top<i class="fas fa-chevron-up" ></i>
+    </a>
+    <!-- to top end -->
+    <!-- javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" defer></script>
+    <script src="assets/js/utilities.min.js"></script>
+    <script src="assets/js/config-theme.js"></script>
+    <script>
+        let card = document.querySelector(".profile_card"); //declearing profile card element
+let displayPicture = document.querySelector(".display-picture"); //declearing profile picture
+
+displayPicture.addEventListener("click", function() { //on click on profile picture toggle hidden class from css
+card.classList.toggle("hidden")})
+    </script>
+    <script>
+        function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#imageUpload").change(function() {
+    readURL(this);
+});
+    </script>

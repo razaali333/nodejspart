@@ -1,0 +1,72 @@
+<!-- views/chargePage.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create a Charge</title>
+</head>
+<body>
+  <h1>Create a Charge</h1>
+  <button id="chargeButton">Create Charge</button>
+
+  <script>
+    document.getElementById('chargeButton').addEventListener('click', function() {
+      // Add your charge request logic here
+      createCharge();
+    });
+
+    function createCharge() {
+      // Prepare the charge data
+      const chargeData = {
+        amount: 1000,
+        currency: 'USD',
+        customer_initiated: true,
+        threeDSecure: true,
+        save_card: false,
+        description: 'Test Description',
+        metadata: { udf1: 'Metadata 1' },
+        reference: { transaction: 'txn_01', order: 'ord_01' },
+        receipt: { email: true, sms: true },
+        customer: {
+          first_name: 'test',
+          middle_name: 'test',
+          last_name: 'test',
+          email: 'test@test.com',
+          phone: { country_code: 965, number: 51234567 }
+        },
+        merchant: { id: '1263747' },
+        source: { id: 'src_all' },
+        post: { url: 'http://localhost:5000/webhook' },
+        redirect: { url: 'http://localhost:5000/success' }
+      };
+
+      // Make an Ajax request to the server's createCharge route
+      fetch('/createCharge', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(chargeData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Charge request successful:', data);
+         // Check if the response contains a transaction with a URL
+         if (data.transaction && data.transaction.url) {
+          // Open the URL in a new window or tab
+          window.location.href=data.transaction.url;
+        } else {
+          console.log('No transaction URL in the response.');
+        }
+
+        // Handle the response as needed
+      })
+      .catch(error => {
+        console.error('Error creating charge:', error);
+        // Handle errors
+      });
+    }
+  </script>
+</body>
+</html>

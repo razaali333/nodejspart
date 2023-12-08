@@ -1,0 +1,354 @@
+<%- include('partials/head') %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css"  />
+<body>
+
+    <style>
+        
+        .iti__flag {background-image: url("assets/img/flags.png");}
+    
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .iti__flag {background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/img/flags@2x.png");}
+    }
+    .iti{
+    width: 100%;
+    }
+    #phone{
+    border: 1px solid #d0d0d0;
+    }
+    /* Add a loading style to the button */
+#submitButton.loading {
+    background-color: #ccc; /* Change to your loading background color */
+    cursor: not-allowed;
+    /* Add any other styling for the loading state */
+}
+    </style>
+    <!-- page loader begin -->
+    <%- include('partials/loader') %>
+    <!-- page loader end -->
+    <!-- header begin -->
+    <%- include('partials/header') %>
+    <!-- header end -->
+    <main>
+        <style>
+            .avatar-upload {
+  position: relative;
+  max-width: 205px;
+  margin: 25px auto;
+}
+.avatar-upload .avatar-edit {
+  position: absolute;
+  right: 12px;
+  z-index: 1;
+  top: 10px;
+}
+.avatar-upload .avatar-edit input {
+  display: none;
+}
+.avatar-upload .avatar-edit input + label {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0;
+  border-radius: 100%;
+  background: #FFFFFF;
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+}
+.avatar-upload .avatar-edit input + label:hover {
+  background: #f1f1f1;
+  border-color: #d6d6d6;
+}
+.avatar-upload .avatar-edit input + label:after {
+  content: "\f040";
+  font-family: 'FontAwesome';
+  color: #757575;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+}
+.avatar-upload .avatar-preview {
+  width: 192px;
+  height: 192px;
+  position: relative;
+  border-radius: 100%;
+  border: 6px solid #F8F8F8;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+.avatar-upload .avatar-preview > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+        </style>
+    <!-- slideshow content begin -->
+    <div class="uk-section">
+        <div class="uk-container" >
+            <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+
+            <h1 class="uk-margin-small-top uk-text-center uk-card-title">Customise<span class="in-highlight">Your Account Information</span></h1>
+            <div uk-grid>
+                
+                <div class="uk-width-auto@m">
+                    <h5 style="text-align: center;">Profile Picture 
+                    </h5>
+                    <div class="avatar-upload">
+                        <div class="avatar-edit">
+                            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                            <label for="imageUpload"></label>
+                        </div>
+                        <div class="avatar-preview">
+                            <div id="imagePreview" style="background-image: url('<%= user_photo %>');">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-width-expand@m">
+                    <form id="update-profile-form" class="uk-form uk-grid-small uk-margin-medium-top" data-uk-grid="">
+                        <div class="uk-width-1-2@s uk-inline">
+                            <span class="uk-form-icon fas fa-user fa-sm"></span>
+                            <input class="uk-input uk-border-rounded" id="fname" name="fname" value="<%= fname %>" type="text" placeholder="First name">
+                        </div>
+                        <div class="uk-width-1-2@s uk-inline">
+                            <span class="uk-form-icon fas fa-user fa-sm"></span>
+                            <input class="uk-input uk-border-rounded" id="lname" name="lname" value="<%= lname %>" type="text" placeholder="Last name">
+                        </div>
+                        <div class="uk-width-1-2@s uk-inline">
+                            <span class="uk-form-icon fas fa-address-card fa-sm"></span>
+                            <input class="uk-input uk-border-rounded" id="username" name="username" value="<%= username %>" type="text" placeholder="Username">
+                        </div>
+                       
+                        <div class="uk-width-1-2@s uk-inline">
+                            <span class="uk-form-icon fas fa-envelope fa-sm"></span>
+                            <input class="uk-input uk-border-rounded" id="email" name="email" value="<%= email %>" type="email" placeholder="Email address">
+                        </div>
+                       
+                        <div class="uk-width-1-2@s uk-inline">
+                            <span class="uk-form-icon fas fa-envelope fa-sm"></span>
+                            <input  class="phone" id="phone" value="<%= phone %>"  data-default-country="<%= '+' + country_code %>"  style="color: gray;width: 100%; padding: 12px 10px 12px 85px; text-align: left;border-radius: 5px;background: #f7f6fc;" type="tel"  
+                            required maxlength="19" placeholder=""/>
+                            <% if (country_code) { %>
+                                <input type="hidden"  value="<%= country_code %>" id="country_code" name="country_code">
+                                <input type="hidden"  value="<%= country_symbol %>" id="country_symbol" name="country_symbol">
+                            <% } else { %>
+                                <input type="hidden"   value="1" id="country_code" name="country_code">
+                                <input type="hidden"   value="us" id="country_symbol" name="country_symbol">
+                        <% } %>
+                            
+                        </div>
+                       
+                        <div class="uk-width-1-2@s uk-inline">
+                            <select id="countryDropdown" class="uk-input uk-border-rounded"></select>
+                        </div>
+                       
+                        <div class="uk-width-1-2@s uk-inline"  <%= (password_length > 1) ? 'style=display:none;' : '' %>>
+                            <span class="uk-form-icon fas fa-key fa-sm"></span>
+                            <input class="uk-input uk-border-rounded"  id="password" value="<%=password %>" name="password" type="password" placeholder="Password Here">
+                        </div>
+                        <div class="uk-width-1-1">
+                            <button class="uk-width-1-1 uk-button uk-button-primary uk-border-rounded" id="submitButton" type="submit" name="submit">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="uk-grid uk-flex uk-flex-center in-contact-8">
+                <h1 class="uk-margin-small-top uk-text-center">Customise<span class="in-highlight">Your Account Information</span></h1>
+              
+            </div> -->
+        </div>
+        </div>
+    </div>
+    <!-- slideshow content end -->
+    <!-- section content begin -->
+ 
+    <!-- section content end -->
+
+   
+    <!-- section content end -->
+    </main>
+    <!-- footer begin -->
+    <%- include('partials/footer') %>
+    <%- include('partials/foot') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+      $(document).ready(function () {
+          // Initialize Select2
+          
+    $('#countryDropdown').select2({
+      placeholder: 'Select a country',
+      ajax: {
+        url: 'https://restcountries.com/v3.1/all',
+        dataType: 'json',
+        delay: 250,
+        processResults: function(data) {
+          // Map the retrieved data to the format required by Select2
+          var countries = data.map(function(country) {
+            return {
+              id: country.name.common,
+              text: country.name.common
+            };
+          });
+
+          return {
+            results: countries
+          };
+        },
+        cache: true
+      }
+    });
+            // Initialize the intlTelInput library
+//    var input = document.querySelector(".phone");
+//    var iti = window.intlTelInput(input, {
+//        separateDialCode: true,
+      
+//        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.min.js", // Make sure to include this script
+//                preferredCountries: ['us', 'gb', 'ae'], // Prioritize US, UK, and UAE
+//         dropdownContainer: document.body
+//    });
+
+//    // Update the hidden input with the selected country code
+//    input.addEventListener("countrychange", function () {
+//        var country_code = iti.getSelectedCountryData().dialCode;
+//        document.querySelector("#country_code").value = country_code;
+//    });
+   
+      });
+</script>
+<script>
+    $(document).ready(function () {
+      // Initialize the intlTelInput library
+    //   var input = document.querySelector(".phone");
+    //   var iti = window.intlTelInput(input, {
+    //     separateDialCode: true,
+    //     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.min.js",
+    //     preferredCountries: ['us', 'gb', 'ae'],
+    //     dropdownContainer: document.body,
+    //   });
+  
+      // Update the hidden input with the selected country code
+    //   input.addEventListener("countrychange", function () {
+    //     $('.iti__selected-dial-code').text('');
+    //     var country_code = iti.getSelectedCountryData().dialCode;
+    //     document.querySelector("#country_code").value = country_code;
+    //     $('.iti__selected-dial-code').text('+' + country_code);
+
+    //   });
+  
+      // Handle form submission
+      $("#submitButton").click(function (e) {
+        e.preventDefault();
+        $(this).addClass("loading");
+        $(this).text("loading...");
+        var formData = new FormData();
+        // Prepare form data
+        
+          var fname= $("#fname").val();
+          var lname= $("#lname").val();
+          var username= $("#username").val();
+          var email= $("#email").val();
+          var phone= $("#phone").val();
+          var country_code= $("#country_code").val();
+          var country_symbol= $("#country_symbol").val();
+          var password= $("#password").val();
+          formData.append('fname', fname);
+            formData.append('lname', lname);
+            formData.append('username', username);
+            formData.append('email', email);
+            formData.append('country_code', country_code);
+            formData.append('country_symbol', country_symbol);
+            formData.append('phone', phone);
+            formData.append('password', password);
+
+            var imageUpload = $('#imageUpload')[0];
+        if (imageUpload && imageUpload.files.length > 0) {
+                formData.append('profileImage', imageUpload.files[0]);
+            }
+        // console.log(formData)
+        // Send form data to the server using AJAX
+        $.ajax({
+          type: "POST",
+          url: "/updateProfile",
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            console.log("Profile updated successfully");
+            $("#submitButton").removeClass("loading");
+            $("#submitButton").text("Update Profile");
+            // Show SweetAlert2 success message
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: response.message,
+            });
+  
+            // Clear form inputs
+            $("#update-profile-form")[0].reset();
+          },
+          error: function (error) {
+            console.error("Error updating profile:", error);
+            $("#submitButton").removeClass("loading");
+            $("#submitButton").text("Update Profile");
+            // Show SweetAlert2 error message
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Failed to update profile. Please try again.',
+            });
+          },
+        });
+      });
+    });
+  </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+       var input = document.querySelector(".phone");
+       var country_symbol = document.getElementById("country_symbol").value;
+        if(country_symbol !=='')
+        {
+            var dynamicCountrySymbol  =country_symbol;
+        }
+        else{
+            var dynamicCountrySymbol  = "AE";
+        }
+     
+       var iti = window.intlTelInput(input, {
+          separateDialCode: true,
+          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js",
+          preferredCountries: ['us', 'gb', 'ae'], // Prioritize US, UK, and UAE
+          dropdownContainer: document.body,
+          initialCountry: dynamicCountrySymbol.toLowerCase(),
+          separateDialCode: true,
+          nationalMode: false,
+       });
+ 
+         // Set dynamic country code after initialization
+    //   var dynamicCountrySymbol = "<%= country_code %>";
+      iti.setCountry(dynamicCountrySymbol);
+
+
+       input.addEventListener("countrychange", function () {
+          var country_code = iti.getSelectedCountryData().dialCode;
+          var country_symbol = iti.getSelectedCountryData().iso2.toUpperCase();
+          document.querySelector("#country_code").value = country_code;
+          document.querySelector("#country_symbol").value = country_symbol;
+       });
+    });
+ </script>
+ 
+
+</body>
+
+</html>

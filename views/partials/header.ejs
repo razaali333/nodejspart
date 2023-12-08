@@ -1,0 +1,208 @@
+<style>
+    .profile_ul{
+        margin: 0;
+        border: none;
+    }
+    .profile_menu{
+        list-style: none;
+    }
+    .profile_menu li a:hover{
+        color: #FFF;
+    }
+    .display-picture{
+  margin-left: auto;
+}
+.display-picture img{
+  width: 50px;
+  border-radius: 50%;
+  border:2px solid #fff;
+}
+.display-picture img:hover{
+border:2px solid #E78341;
+}
+.profile_card{
+    border: none !important;
+    margin:0 !important;
+    padding: 0 !important;
+  transition: 0.5s ease;
+}
+
+.profile_card ul{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  background: #000000BA;
+  position: absolute;
+  top: 5rem;
+  right:0rem;
+border-radius: 10px;
+padding: 10px 90px 10px 20px;
+}
+.profile_card ul li{
+ 
+  padding: 5px 0;
+  color: #FFF;
+  font-size: 14px;
+}
+.hidden{
+  display: none;
+}
+a{
+  text-decoration: none;
+  color:#fff;
+}
+</style>
+<header>
+    <div class="uk-section uk-padding-small in-profit-ticker">
+        <div class="uk-container">
+            <div class="uk-grid">
+                <div class="uk-width-1-1">
+                    <div data-uk-slider="autoplay: true; autoplay-interval: 5000">
+                        <ul class="uk-grid-large uk-slider-items uk-child-width-1-3@s uk-child-width-1-6@m uk-text-center" data-uk-grid>
+                            <li>
+                                <div class="in-icon-wrap small circle up">
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                                <div>
+                                    XAUUSD <span class="uk-text-success">1478.81</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="in-icon-wrap small circle down">
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
+                                <div>
+                                    GBPUSD <span class="uk-text-danger">1.3191</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="in-icon-wrap small circle down">
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
+                                <div>
+                                    EURUSD <span class="uk-text-danger">1.1159</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="in-icon-wrap small circle up">
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                                <div>
+                                    USDJPY <span class="uk-text-success">109.59</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="in-icon-wrap small circle up">
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                                <div>
+                                    USDCAD <span class="uk-text-success">1.3172</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="in-icon-wrap small circle up">
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                                <div>
+                                    USDCHF <span class="uk-text-success">0.9776</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="in-icon-wrap small circle down">
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
+                                <div>
+                                    AUDUSD <span class="uk-text-danger">0.67064</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="in-icon-wrap small circle up">
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                                <div>
+                                    GBPJPY <span class="uk-text-success">141.91</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-section uk-padding-remove-vertical">
+        <nav class="uk-navbar-container" data-uk-sticky="show-on-up: true; animation: uk-animation-slide-top;">
+            <div class="uk-container" data-uk-navbar>
+                <div class="uk-navbar-left uk-width-expand uk-flex uk-flex-between">
+                    <a class="uk-navbar-item uk-logo" href="/home">
+                        <img src="/assets/img/in-lazy.gif" data-src="/assets/img/logo.png" alt="logo" width="130" height="36" data-uk-img>
+                    </a>
+                    <ul class="uk-navbar-nav uk-visible@m">
+                        <li><a href="/home">Home</a>
+                        </li>
+                        <li><a href="markets.html">Markets</a>
+                        </li>
+                        <li><a href="#">Company<span data-uk-navbar-parent-icon></span></a>
+                            <div class="uk-navbar-dropdown">
+                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                    <li><a href="about.html">About</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="careers.html">Careers</a></li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="education.html">Education</a>
+                        </li>
+                        <li><a href="#">Resources<span data-uk-navbar-parent-icon></span></a>
+                            <div class="uk-navbar-dropdown uk-navbar-dropdown-width-2">
+                                <div class="uk-navbar-dropdown-grid uk-child-width-1-2" data-uk-grid>
+                                    <div>
+                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                            <li><a href="https://getuikit.com/docs/introduction">Documentation<i class="fas fa-square-arrow-up-right fa-sm"></i></a></li>
+                                            <li><a href="help-center.html">Help Center</a></li>
+                                            <li><a href="customers.html">Customers</a></li>
+                                            <li><a href="roadmap.html">Roadmap</a></li>
+                                            <li><a href="legal-docs.html">Legal Docs<i class="fas fa-gavel fa-sm"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                            <li><a class="uk-disabled" href="#">Adipiscing elit sed do eiusmod incididunt ut labore dolore magna lorem ipsum sit dolor amet consectetur</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="uk-navbar-right uk-width-auto">
+                    
+                    <div class="uk-navbar-item uk-visible@m in-optional-nav">
+                       
+                            <% if (isAuthenticated) { %>
+                                <ul class="profile_ul">
+                                    <a href="#" class="display-picture"><img src="<%= user_photo %>" alt=""></a><!--Profile Image-->
+                                    </ul>
+                                    <div class="profile_card hidden"><!--ADD TOGGLE HIDDEN CLASS ATTRIBUTE HERE-->
+                                      <ul class="profile_menu"><!--MENU-->
+                                        <li><a href="/profile">Profile</li></a>
+                                        <li><a href="#">Account</li></a>
+                                        <li><a href="#">Settings</li></a>
+                                        <li><a href="#">Log Out</li></a>
+                                      </ul>
+                                    </div>
+                                <!-- <a href="/logout" class="uk-button uk-button-link">Logout</a> -->
+                            <% } else { %>
+                                <div >
+                                <a href="/signin" class="uk-button uk-button-link">Login</a>
+                                <a href="/signup" class="uk-button uk-button-link">Sign up</a>
+                           
+                           
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
