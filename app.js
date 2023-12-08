@@ -400,6 +400,7 @@ app.get('/callback',
           email,
           phone:'',
           country_code:'',
+          googleUser:'yes',
           password:'',
           photo: req.file ? `uploads/${req.file.filename}` : photos[0].value,
           // Add other user details as needed
@@ -518,6 +519,46 @@ app.post('/updateProfile', upload.single('profileImage'), async (req, res) => {
   } catch (error) {
     console.error('Error updating profile:', error);
     res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
+// Route for user login
+app.post('/login_request', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if the user exists in Firestore
+    const userSnapshot = await admin.firestore().collection('site_users').where('email', '==', email).get();
+
+    if (userSnapshot.empty) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Verify the password (this is a simple example, you should use a secure authentication method)
+    const user = userSnapshot.docs[0].data();
+    const userId = userSnapshot.docs[0].id;
+    if (user.password !== password) {
+      return res.status(401).json({ message: 'Incorrect Password' });
+    }
+
+    req.session.user = {
+      id:userId,
+      fname: user.fname,
+      lname: user.lname,
+      username:user.username,
+      email:user.email,
+      country_code:user.country_code,
+      country_symbol:user.country_symbol,
+      phone:user.phone,
+      googleUser:user.googleUser,
+      password:user.password,
+      photo:user.photo, // Use the updated profile image path or keep the existing one
+  };
+    // Authentication successful
+    return res.status(200).json({ message: 'Login successful', user });
+  } catch (error) {
+    console.error('Error during login:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 });
 

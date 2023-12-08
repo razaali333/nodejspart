@@ -55,14 +55,14 @@
                                 </a>
                                 <p class="uk-text-lead uk-margin-small-top uk-margin-medium-bottom">Log into your account</p>
                                 <!-- login form begin -->
-                                <form class="uk-grid uk-form">
+                                <form id="loginForm" class="uk-grid uk-form">
                                     <div class="uk-margin-small uk-width-1-1 uk-inline">
                                         <span class="uk-form-icon uk-form-icon-flip fas fa-user fa-sm"></span>
-                                        <input class="uk-input uk-border-rounded" id="username" value="" type="text" placeholder="Username">
+                                        <input class="uk-input uk-border-rounded" id="email" value="" type="email" placeholder="email">
                                     </div>
                                     <div class="uk-margin-small uk-width-1-1 uk-inline">
                                         <span class="uk-form-icon uk-form-icon-flip fas fa-lock fa-sm"></span>
-                                        <input class="uk-input uk-border-rounded" id="password" value="" type="email" placeholder="Password">
+                                        <input class="uk-input uk-border-rounded" id="password" value="" type="password" placeholder="Password">
                                     </div>
                                     
                                     <div class="uk-margin-small uk-width-expand uk-text-small">
@@ -73,11 +73,10 @@
                                     </div>
                                 </form>
                                 <!-- login form end -->
-                                <p class="uk-heading-line"><span>Or sign in with</span></p>
+                                <!-- <p class="uk-heading-line"><span>Or sign in with</span></p>
                                 <div class="uk-margin-medium-bottom">
                                     <a class="uk-button uk-button-primary uk-button-small uk-border-rounded color-google" href="#"><i class="fab fa-google uk-margin-small-right"></i>Google</a>
-                                    <!-- <a class="uk-button uk-button-primary uk-button-small uk-border-rounded uk-margin-small-left color-facebook" href="#"><i class="fab fa-facebook-f uk-margin-small-right"></i>Facebook</a> -->
-                                </div>                        
+                                       </div>                         -->
                                 <span class="uk-text-small">Don't have an account? <a href="/signup">Register here</a></span>
                             </div>
                         </div>
@@ -89,8 +88,46 @@
     <!-- section content end -->
     </main>
     <!-- javascript -->
+          
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/assets/js/utilities.min.js"></script>
     <script src="/assets/js/config-theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        $(document).ready(function() {
+          $('#loginForm').submit(function(e) {
+            e.preventDefault();
+    
+            const email = $('#email').val();
+            const password = $('#password').val();
+    
+            $.ajax({
+              type: 'POST',
+              url: '/login_request',
+              contentType: 'application/json',
+              data: JSON.stringify({ email, password }),
+              success: function(response) {
+                Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: response.message,
+              didClose: () => {
+                // Redirect to the home page
+                window.location.href = '/';
+              }
+            });
+              },
+              error: function(error) {
+                Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: error.responseJSON.message,
+            });
+              }
+            });
+          });
+        });
+      </script>
 </body>
 
 </html>
