@@ -13,6 +13,7 @@ const session = require('express-session');
 const cookieSession = require('cookie-session');
 const crypto = require('crypto');
 const multer = require('multer');
+const axios = require('axios');
 const { OAuth2Client } = require('google-auth-library');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -398,6 +399,7 @@ app.get('/callback',
           fname,
           lname,
           email,
+          country:'',
           phone:'',
           country_code:'',
           googleUser:'yes',
@@ -415,6 +417,7 @@ app.get('/callback',
         fname,
         lname,
         email,
+        country,
         country_code:'',
         phone:'',
         googleUser:'yes',
@@ -431,18 +434,19 @@ app.get('/callback',
 );
 
 app.get('/profile', (req, res) => {
-  if (req.isAuthenticated()) {
+  const isAuthenticated = req.session.user;
+  if (isAuthenticated) {
     
   // req.session.user = { email: user.emails[0].value, username: user.displayName, photo: user.photos[0].value };
   let users_info=req.session.user;
   console.log(users_info);
-  const isAuthenticated = req.session.user;
+  // const isAuthenticated = req.session.user;
   const originalPath = users_info.photo;
   const convertedPath = originalPath.replace(/\\/g, '/');
   const password=users_info.password;
   const password_length=password.length;
   // console.log()
-    res.render('profile', { email: users_info.email,fname:users_info.fname,lname:users_info.lname,user_photo:convertedPath,username:users_info.username,
+    res.render('profile', { email: users_info.email,country: users_info.country,fname:users_info.fname,lname:users_info.lname,user_photo:convertedPath,username:users_info.username,
       phone:users_info.phone,country_code:users_info.country_code,country_symbol:users_info.country_symbol,password:users_info.password,isAuthenticated,password_length });
   } else {
     res.redirect('/');
@@ -451,7 +455,7 @@ app.get('/profile', (req, res) => {
 
 app.post('/updateProfile', upload.single('profileImage'), async (req, res) => {
   try {
-    const { fname, lname, username, email, phone, password,country_code,country_symbol } = req.body;
+    const { fname, lname, username, email, phone, password,country,country_code,country_symbol } = req.body;
       // Check if a file was uploaded
     
     // Fetch the user based on the provided email
@@ -477,6 +481,7 @@ app.post('/updateProfile', upload.single('profileImage'), async (req, res) => {
      if (lname)             updateData.lname = lname;
      if (username)          updateData.username = username;
      if (email)             updateData.email = email;
+     if (country)           updateData.country = country;
      if (country_code)      updateData.country_code = country_code;
      if (country_symbol)    updateData.country_symbol = country_symbol;
      if (phone)             updateData.phone = phone;
@@ -506,6 +511,7 @@ app.post('/updateProfile', upload.single('profileImage'), async (req, res) => {
       lname: lname,
       username:username,
       email:email,
+      country:country,
       country_code:country_code,
       country_symbol:country_symbol,
       phone:phone,
@@ -547,6 +553,7 @@ app.post('/login_request', async (req, res) => {
       lname: user.lname,
       username:user.username,
       email:user.email,
+      country:user.country,
       country_code:user.country_code,
       country_symbol:user.country_symbol,
       phone:user.phone,
@@ -559,6 +566,64 @@ app.post('/login_request', async (req, res) => {
   } catch (error) {
     console.error('Error during login:', error);
     return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// // Function to fetch countries from the REST Countries API
+// async function fetchCountries() {
+//   try {
+//     const response = await axios.get('https://restcountries.com/v2/all');
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching countries:', error.message);
+//     throw error;
+//   }
+// }
+
+// // Route to save name and alpha3Code of countries to Firestore
+// app.get('/save-countries', async (req, res) => {
+//   try {
+//     // Fetch countries from the API
+//     const countries = await fetchCountries();
+
+//     // Save name and alpha3Code to Firestore
+//     const batch = admin.firestore().batch();
+//     const countriesCollection = admin.firestore().collection('countries');
+
+//     countries.forEach((country) => {
+//       const { name, alpha3Code } = country;
+//       const countryDocRef = countriesCollection.doc(alpha3Code);
+//       batch.set(countryDocRef, { name, alpha3Code });
+//     });
+
+//     await batch.commit();
+
+//     res.status(200).json({ message: 'Countries saved successfully' });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
+
+
+// Function to fetch countries from Firestore
+async function getCountriesFromFirestore() {
+  try {
+    const snapshot = await admin.firestore().collection('countries').get();
+    const countries = snapshot.docs.map(doc => doc.data());
+    return countries;
+  } catch (error) {
+    console.error('Error fetching countries from Firestore:', error.message);
+    throw error;
+  }
+}
+
+// Route to get all countries from Firestore
+app.get('/get-countries', async (req, res) => {
+  try {
+    const countries = await getCountriesFromFirestore();
+    res.status(200).json(countries);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 

@@ -1,9 +1,28 @@
 <%- include('partials/head') %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css"  />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <body>
 
     <style>
-        
+          /* Custom styling for the Select2 container */
+          .select2-container {
+          width: 100% !important; /* Set your custom width */
+        }
+    
+        /* Custom styling for the Select2 dropdown */
+        .select2-selection {
+            height:40px !important;
+        }
+        .select2-container--default .select2-selection--single{
+            background-color: #f7f6fc !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered{
+            line-height: 35px !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow{
+            height: 35px !important;
+        }
         .iti__flag {background-image: url("assets/img/flags.png");}
     
     @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -147,7 +166,8 @@
                         </div>
                        
                         <div class="uk-width-1-2@s uk-inline">
-                            <select id="countryDropdown" class="uk-input uk-border-rounded"></select>
+                            <select id="countrySelector"></select>
+
                         </div>
                        
                         <div class="uk-width-1-2@s uk-inline"  <%= (password_length > 1) ? 'style=display:none;' : '' %>>
@@ -180,33 +200,43 @@
     <%- include('partials/foot') %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
       $(document).ready(function () {
           // Initialize Select2
-          
-    $('#countryDropdown').select2({
-      placeholder: 'Select a country',
-      ajax: {
-        url: 'https://restcountries.com/v3.1/all',
-        dataType: 'json',
-        delay: 250,
-        processResults: function(data) {
-          // Map the retrieved data to the format required by Select2
-          var countries = data.map(function(country) {
-            return {
-              id: country.name.common,
-              text: country.name.common
-            };
-          });
 
-          return {
-            results: countries
-          };
-        },
-        cache: true
-      }
+              // Function to fetch countries from the server
+  function fetchCountries() {
+    return $.ajax({
+      type: 'GET',
+      url: '/get-countries', // Update the endpoint based on your server implementation
+    });
+  }
+
+   // Function to initialize the Select2 dropdown
+   function initializeSelect2(countries) {
+    $('#countrySelector').select2({
+      data: countries.map(country => ({ id: country.alpha3Code, text: country.name })),
+      placeholder: 'Select a country',
+    });
+
+      // Set default selected country (e.g., 'us' for United States)
+      $('#countrySelector').val('<%= country %>').trigger('change');
+  }
+
+    // Fetch countries and initialize Select2 when the document is ready
+    fetchCountries()
+    .then((countries) => {
+      initializeSelect2(countries);
+    })
+    .catch((error) => {
+      console.error('Error fetching countries:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error fetching countries',
+      });
     });
             // Initialize the intlTelInput library
 //    var input = document.querySelector(".phone");
@@ -258,6 +288,7 @@
           var lname= $("#lname").val();
           var username= $("#username").val();
           var email= $("#email").val();
+          var country= $("#countrySelector").val();
           var phone= $("#phone").val();
           var country_code= $("#country_code").val();
           var country_symbol= $("#country_symbol").val();
@@ -266,6 +297,7 @@
             formData.append('lname', lname);
             formData.append('username', username);
             formData.append('email', email);
+            formData.append('country', country);
             formData.append('country_code', country_code);
             formData.append('country_symbol', country_symbol);
             formData.append('phone', phone);
