@@ -86,8 +86,14 @@ app.use((req, res, next) => {
 });
 app.use(cors());
 // app.use(express.bodyParser());
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/index.html');
+// });
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  const isAuthenticated = req.session.user;
+  let users_info=req.session.user;
+  const user_photo=users_info.photo;
+  res.render('home',{isAuthenticated,user_photo});
 });
 app.get('/home', (req, res) => {
   const isAuthenticated = req.session.user;
