@@ -170,7 +170,7 @@
             // Send form data to the server using AJAX
             $.ajax({
                 type: "POST",
-                url: "http://localhost:5000/save_account", // Update the URL with your server endpoint
+                url: "/save_account", // Update the URL with your server endpoint
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function (response) {
